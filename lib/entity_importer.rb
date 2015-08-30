@@ -24,6 +24,7 @@ EntityImporter = Struct.new(:content) do
   end
 
   def errors
+    # TODO: Figure out the right way to handle this
     import if @errors.nil?
 
     @errors
