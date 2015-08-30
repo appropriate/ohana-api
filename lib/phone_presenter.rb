@@ -7,4 +7,5 @@ PhonePresenter = Struct.new(:row) do
     assign_parents_for(phone, row)
     phone
   end
+  alias :to_entity :to_phone
 end

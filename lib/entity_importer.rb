@@ -49,7 +49,11 @@ EntityImporter = Struct.new(:content) do
   end
 
   def self.process_row(row)
-    raise NotImplementedError
+    presenter_class.new(row.to_hash).to_entity
+  end
+
+  def self.presenter_class
+    @presenter_class ||= self.name.gsub(/Importer/, 'Presenter').constantize
   end
 
   def process_row(row)

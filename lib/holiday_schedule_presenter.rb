@@ -7,4 +7,5 @@ HolidaySchedulePresenter = Struct.new(:row) do
     assign_parents_for(holiday_schedule, row)
     holiday_schedule
   end
+  alias :to_entity :to_holiday_schedule
 end

@@ -7,4 +7,5 @@ RegularSchedulePresenter = Struct.new(:row) do
     assign_parents_for(regular_schedule, row)
     regular_schedule
   end
+  alias :to_entity :to_regular_schedule
 end

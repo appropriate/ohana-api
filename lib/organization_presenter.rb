@@ -8,4 +8,5 @@ OrganizationPresenter = Struct.new(:row) do
     org.id = row[:id].to_i
     org
   end
+  alias :to_entity :to_org
 end

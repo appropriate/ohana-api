@@ -4,6 +4,9 @@ CategoryPresenter = Struct.new(:row) do
     return parent_category(row) unless parent_category(row).valid?
     child_category(row)
   end
+  alias :to_entity :to_category
+
+  protected
 
   def parent_category(row)
     Category.find_or_create_by(name: row[:parent_name],

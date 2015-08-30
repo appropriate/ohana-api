@@ -7,4 +7,5 @@ ContactPresenter = Struct.new(:row) do
     assign_parents_for(contact, row)
     contact
   end
+  alias :to_entity :to_contact
 end

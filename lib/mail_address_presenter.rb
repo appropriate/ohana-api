@@ -7,4 +7,5 @@ MailAddressPresenter = Struct.new(:row) do
     assign_parents_for(mail_address, row)
     mail_address
   end
+  alias :to_entity :to_mail_address
 end

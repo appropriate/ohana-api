@@ -7,4 +7,5 @@ ProgramPresenter = Struct.new(:row) do
     assign_parents_for(program, row)
     program
   end
+  alias :to_entity :to_program
 end

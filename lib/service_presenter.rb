@@ -12,6 +12,7 @@ ServicePresenter = Struct.new(:row) do
     assign_parents_for(service, row.except(:taxonomy_ids))
     service
   end
+  alias :to_entity :to_service
 
   private
 
