@@ -1,9 +1,12 @@
 require 'csv'
 
 EntityImporter = Struct.new(:content) do
+  attr_writer :errors
+
   def self.import_file(path)
-    content = File.read(path)
-    new(content).tap(&:import)
+    File.open(path) do |io|
+      new(io).tap(&:import)
+    end
   end
 
   def self.check_and_import_file(path)
@@ -20,9 +23,52 @@ EntityImporter = Struct.new(:content) do
     importer.errors.each { |e| Kernel.puts(e) } unless importer.valid?
   end
 
+  def errors
+    import if @errors.nil?
+
+    @errors
+  end
+
+  def valid?
+    !(errors.nil? || errors.present?)
+  end
+
+  def import
+    self.errors = []
+    entities.each_with_index do |e,index|
+      unless e.save
+        errors << ImporterErrors.new(e, index + 2).message
+      end
+    end
+  end
+
   protected
 
+  def self.required_headers
+    raise NotImplementedError
+  end
+
+  def self.process_row(row)
+    raise NotImplementedError
+  end
+
+  def process_row(row)
+    self.class.process_row(row)
+  end
+
+  def csv
+    @csv ||= CSV.new(content, headers: true, header_converters: :symbol)
+  end
+
   def csv_entries
-    @csv_entries ||= CSV.new(content, headers: true, header_converters: :symbol).entries
+    @csv_entries ||= csv.entries
+  end
+
+  def entities
+    return enum_for(:entities) unless block_given?
+
+    csv.lazy.each do |row|
+      yield process_row(row)
+    end
   end
 end
